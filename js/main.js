@@ -24,6 +24,7 @@ $(document).ready(function () {
                     var userid = userInfo.id;
 
                     if(answer == '') {
+                        $('#ajaxDiv').html('');
                         $('#ajaxError').html('Please select an answer!');
                     } else {
                         $('#ajaxError').html('');
@@ -52,20 +53,25 @@ $(document).ready(function () {
                             var email = response.email;
                             var userid = response.id;
 
-                            $('#ajaxError').html('');
-                            $('#ajaxDiv').html('<img id="ajaxloading" src="/images/loading/loading35.gif" alt="Loading" title="Loading" />');
-                            $.ajax({
-                                url: 'helpers/submit.php',
-                                type: 'POST',
-                                data: {answer: answer, name: name, email: email, userid: userid},
-                                success: function (data) {
-                                    $('#ajaxDiv').html(data);
-                                },
-                                error: function () {
-                                    $('#ajaxError').html('There was an error submitting the form');
-                                }
-                            });
-                            return false;
+                            if(answer == '') {
+                                $('#ajaxDiv').html('');
+                                $('#ajaxError').html('Please select an answer!');
+                            } else {
+                                $('#ajaxError').html('');
+                                $('#ajaxDiv').html('<img id="ajaxloading" src="/images/loading/loading35.gif" alt="Loading" title="Loading" />');
+                                $.ajax({
+                                    url: 'helpers/submit.php',
+                                    type: 'POST',
+                                    data: {answer: answer, name: name, email: email, userid: userid},
+                                    success: function (data) {
+                                        $('#ajaxDiv').html(data);
+                                    },
+                                    error: function () {
+                                        $('#ajaxError').html('There was an error submitting the form');
+                                    }
+                                });
+                                return false;
+                            }
                         });
                     } else {
                         // console.log('User cancelled login or did not fully authorize.');
